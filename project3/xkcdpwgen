@@ -1,0 +1,83 @@
+#!/usr/bin/python3
+
+import sys 
+import getopt
+import random
+
+with open('words.txt') as file: 
+    lines = file.read().splitlines()
+
+words = 4
+caps = numbers = symbols = 0
+symbol_char = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=", "+", "_"]
+
+res = ''
+
+
+
+try:
+        opts, args = getopt.getopt(sys.argv[1:], "hc:w:n:s:", 
+                                                ["help",
+                                                "caps=" 
+                                                "words=",
+                                                "numbers=", 
+                                                "symbols="])
+except getopt.GetoptError:
+        print("arguments must be one of: xkcdpwgen [-h] [-w WORDS] [-c CAPS] [-n NUMBERS] [-s SYMBOLS]")
+        sys.exit(2)
+for opt, arg in opts:
+        if opt in ['-h', '--help']:
+            print("usage: xkcdpwgen [-h] [-w WORDS] [-c CAPS] [-n NUMBERS] [-s SYMBOLS]"
+                "Generate a secure, memorable password using the XKCD method\n" +                
+                "optional arguments:\n" + 
+                " -h, --help  show this help message and exit\n" + 
+                "-w WORDS, --words WORDS include WORDS words in the password (default=4)\n" + 
+                "-c CAPS, --caps CAPS  capitalize the first letter of CAPS random words\n" + 
+                "         (default=0)\n" + 
+                "-n NUMBERS, --numbers NUMBERS\n" + 
+                "         insert NUMBERS random numbers in the password\n" + 
+                "         (default=0)\n" + 
+                "-s SYMBOLS, --symbols SYMBOLS\n" + 
+                "         insert SYMBOLS random symbols in the password\n" + 
+                "          (default=0)\n")
+            sys.exit()
+        elif opt in ['-w', '--words']:
+            words = int(arg)
+        elif opt in ['-c', '--caps']: 
+            caps = int(arg) 
+        elif opt in ['-n', '--number']: 
+            numbers = int(arg)
+        elif opt in ['-s', '--symbols']: 
+            symbols = int(arg)
+
+
+for i in range(words): 
+    l = lines[random.randint(0, len(lines) - 1)]
+    if caps <= (words - i) & caps > 0: 
+        l = l[0].upper() + l[1:]
+        caps -= 1 
+    elif caps > words: 
+        print("error: caps argument is greater than words entered")
+        break 
+    res += l
+
+
+for k in range(numbers): 
+    ri = random.randint(0, len(res) - 1)
+    res = res[0: ri] + str(random.randint(0, 99)) + res[ri:]
+
+for n in range(symbols): 
+    r = random.randint(0, len(res) - 1)
+    res = res[0: r] + symbol_char[random.randint(0, len(symbol_char) - 1)] + res[r:]
+
+print(res)
+
+    
+            
+
+
+
+
+
+                
+
