@@ -1,0 +1,23 @@
+# Last Modified: Tue Nov 15 03:47:24 2022
+abi <abi/3.0>,
+
+include <tunables/global>
+
+/home/ansh/Desktop/Project6/p2 flags=(audit) {
+  include <abstractions/base>
+  include <abstractions/evince>
+  include <abstractions/user-tmp>
+
+  /etc/crontab r,
+  /etc/hosts r,
+  /etc/passwd r,
+  /home/ansh/Desktop/Project6/p2 mr,
+  /proc/buddyinfo r,
+  /proc/version r,
+  /run/systemd/resolve/stub-resolv.conf r,
+  /var/log/syslog r,
+  owner /home/*/.project2/config w,
+  owner /home/*/Desktop/Project6/template r,
+  network tcp,
+
+}
